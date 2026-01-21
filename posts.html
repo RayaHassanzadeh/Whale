@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% set active_page='posts' %}
+{% block title %}Posts{% endblock %}
+{% block content %}
+<div class="posts-container">
+    <h1 class="mb-4">Welcome to Posts</h1>
+    {% for post in posts %}
+        <div class="post-item card mb-4 shadow-sm position-relative">
+            <div class="card-body">
+                <!-- 标题和内容 -->
+                <img src="{{ url_for('static', filename='profile_pics/' + post.author.image_file) }}" alt="User Avatar" class="rounded-circle" width="40">
+                <h2 class="card-title">{{ post.subject }}</h2>
+                <p class="card-text">{{ post.content }}</p>
+                
+                <!-- 日期和作者信息 -->
+                {% if post.edited %}
+                    <p class="text-muted small">
+                        Edited on {{ post.date_posted.strftime('%Y-%m-%d %H:%M:%S') }}, by {{ post.author.username }}
+                    </p>
+                {% else %}
+                    <p class="text-muted small">
+                        Created on {{ post.date_posted.strftime('%Y-%m-%d %H:%M:%S') }}, by {{ post.author.username }}
+                    </p>
+                {% endif %}
+                
+                <!-- 操作按钮 -->
+                {% if user.id == post.user_id %}
+                    <div class="mt-2 btn-container">
+                        <a class="btn btn-danger btn-sm me-2" href="{{ url_for('delete_post', post_id=post.id) }}">Delete</a>
+                        <a class="btn btn-warning btn-sm" href="{{ url_for('editpost', post_id=post.id) }}">Edit</a>
+                    </div>
+                {% endif %}
+            </div>
+
+            <!-- 隐藏的全卡片跳转链接 -->
+            <a href="{{ url_for('view_post', post_id=post.id) }}" class="stretched-link"></a>
+        </div>
+    {% endfor %}
+</div>
+{% endblock %}
