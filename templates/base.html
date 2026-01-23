@@ -13,7 +13,7 @@
 </head>
 <body>
     <div class="container">
-        <!-- 导航栏 -->
+        <!-- navigate bar -->
         <ul class="nav nav-tabs nav-justified">
             <li class="nav-item">
                 <a class="nav-link {{ 'active' if active_page=='home' else '' }}" href="{{ url_for('index') }}">Home</a>
@@ -44,7 +44,7 @@
             </a>
         </ul>
 
-        <!-- 消息区域 -->
+        <!-- massage area -->
         {% with messages = get_flashed_messages(with_categories=true) %}
         {% if messages %}
             <div id="flash-messages">
@@ -59,12 +59,12 @@
     {% endwith %}
     
 
-        <!-- 内容区域 -->
+        <!-- content area -->
         <div id="content">
             {% block content %}{% endblock %}
         </div>
 
-        <!-- 页脚 -->
+        <!-- page -->
         <div id="footer">
             {% block footer %}
             &copy; 2024 My Forum
