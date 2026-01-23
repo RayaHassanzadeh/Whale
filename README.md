@@ -62,7 +62,7 @@ This project is a forum application designed to facilitate user interaction thro
 ### Steps
 1. Clone the repository:
    ```bash
-   git clone https://github.com/Loveroin/Forum
+   git clone https://github.com/RayaHassanzadeh/Whale
    cd Forum
    ```
 
