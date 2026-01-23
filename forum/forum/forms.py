@@ -24,28 +24,28 @@ class Signup(FlaskForm):
     submit = SubmitField('Sign Up')
 
     def validate_username(self, username):
-        # 检查数据库中是否存在相同的用户名
+        # check if the same username exists in the database.
         user = User.query.filter_by(username=username.data).first()
         if user:
             raise ValidationError('This username is already taken. Please choose a different one.')
         
 class UpdateAccountForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired(), Length(min=2, max=20)])
-    password = PasswordField('New Password', validators=[])  # 移除全局 Length 验证器
+    password = PasswordField('New Password', validators=[])  # romove
     confirm_password = PasswordField('Confirm New Password', validators=[EqualTo('password', message="Passwords must match")])
     picture = FileField('Update Profile Picture', validators=[FileAllowed(['jpg', 'png', 'jpeg', 'gif'])])
     submit = SubmitField('Save Changes')
 
-    # 自定义验证器：检查用户名是否已存在
+    # check username
     def validate_username(self, username):
-        if username.data != current_user.username:  # 确保是修改用户名
+        if username.data != current_user.username:  
             user = User.query.filter_by(username=username.data).first()
             if user:
                 raise ValidationError('This username is already taken. Please choose a different one.')
 
-    # 自定义验证器：仅在提供密码时验证长度
+    # validate the length when and only when password is provided
     def validate_password(self, password):
-        if password.data:  # 如果提供了密码，则验证长度
+        if password.data:  
             if len(password.data) < 4 or len(password.data) > 20:
                 raise ValidationError('Field must be between 4 and 20 characters long.')
 
