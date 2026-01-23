@@ -1,0 +1,14 @@
+<!--Displaying all current users. -->
+
+{% extends "base.html" %}
+{% set active_page='users' %}
+{% block title %}  {{title}}  {% endblock %}
+{% block content %}
+<h1>Users</h1>
+{% for user in users %}
+    <h1>{{ user }}</h1>
+    <p>id: {{ user.id }}</p>
+    <a class="btn btn-danger btn-sm" href="{{ url_for('delete_user', user_id=user.id) }}">Delete</a>
+ {% endfor %}
+
+{% endblock %}
