@@ -87,7 +87,7 @@ This project is a forum application designed to facilitate user interaction thro
    python run.py
    ```
 
-The application will be available at `http://localhost:8008`.
+The application will be available at `http://localhost:5009`.
 
 ---
 
