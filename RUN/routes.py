@@ -50,7 +50,7 @@ def login():
                 login_user(user, remember=form.remember.data)
                 flash('You have logged in!', 'success')
                 
-                next_page = request.args.get('next')  # 获取重定向目标
+                next_page = request.args.get('next')  # get the redirect target 
                 return redirect(next_page) if next_page else redirect(url_for('index'))
             
             flash('Login failed. Check username or password.', 'danger')
@@ -78,11 +78,11 @@ def createpost():
             post = Post(
                 subject=form.subject.data,
                 content=form.content.data,
-                user_id=user_id,  # 将帖子与当前用户关联
-                category=form.category.data  # 假设表单中有分类字段
+                user_id=user_id,  
+                category=form.category.data  
             )
             db.session.add(post)
-            db.session.commit() #添加至数据库
+            db.session.commit() 
             flash('Your post has been created!', 'success')
             return redirect(url_for('index'))
         else:
@@ -92,41 +92,41 @@ def createpost():
 @app.route('/editpost/<int:post_id>', methods=['GET', 'POST'])
 @login_required
 def editpost(post_id):
-    post = Post.query.get_or_404(post_id)  # 根据 post_id 查找帖子，如果不存在返回 404
-    if post.user_id != current_user.id:  # 确保当前用户只能编辑自己的帖子
+    post = Post.query.get_or_404(post_id)  #SEEARCHED FOR THE POST BY POST_ID; RETURN 404 IF THE POSTDOES NOT EXISTS. 
+    if post.user_id != current_user.id:  
         flash('You are not authorized to edit this post.', 'danger')
         return redirect(url_for('index'))
     
     form = Edit_Post()
-    if request.method == 'POST':  # 如果收到 POST 请求
+    if request.method == 'POST':  
         if form.validate_on_submit():
-            post.subject = form.subject.data  # 更新帖子标题
-            post.content = form.content.data  # 更新帖子内容
-            post.category = form.category.data  # 更新分类
-            post.edited = True  # 标记为已编辑
+            post.subject = form.subject.data  
+            post.content = form.content.data  
+            post.category = form.category.data  
+            post.edited = True  
 
-            db.session.commit()  # 提交更改
+            db.session.commit()  
             flash('Your post has been updated!', 'success')
             return redirect(url_for('index'))
         else:
             flash('Failed to submit edit, please check the errors', 'danger')
     else:
-        # 填充表单初始值
+       
         form.subject.data = post.subject
         form.content.data = post.content
         form.category.data = post.category
 
-    return render_template('editpost.html', form=form)  # 渲染编辑页面
+    return render_template('editpost.html', form=form) 
 
 @app.route('/post/<int:post_id>', methods=['GET', 'POST'])
 @login_required
 def view_post(post_id):
     post = Post.query.get_or_404(post_id)
-    comments = Comment.query.filter_by(post_id=post_id).order_by(Comment.timestamp.desc()).all()  # 按时间排序评论
+    comments = Comment.query.filter_by(post_id=post_id).order_by(Comment.timestamp.desc()).all()  
 
     form = Create_Comment()
     if request.method == 'POST':
-        # 提交评论
+      
         if form.validate_on_submit():
             user_id = current_user.id
             post_id = post_id
@@ -180,30 +180,30 @@ def account():
     form = UpdateAccountForm()
 
     if form.validate_on_submit():
-        # 更新用户名
+        
         if form.username.data:
             current_user.username = form.username.data
 
-        # 更新密码（仅当用户输入了新密码时）
+    
         if form.password.data:
             hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
             current_user.password = hashed_password
 
-        # 更新头像
+        
         if form.picture.data:
-            # 生成随机文件名
+           
             random_hex = secrets.token_hex(8)
             _, f_ext = os.path.splitext(form.picture.data.filename)
             picture_fn = random_hex + f_ext
             picture_path = os.path.join(app.config['UPLOAD_FOLDER'], picture_fn)
 
-            # 保存图片并调整大小
+          
             output_size = (125, 125)
             i = Image.open(form.picture.data)
             i.thumbnail(output_size)
             i.save(picture_path)
 
-            # 删除旧头像（如果不是默认头像）
+            
             if current_user.image_file != 'default.jpg':
                 old_picture_path = os.path.join(app.config['UPLOAD_FOLDER'], current_user.image_file)
                 if os.path.exists(old_picture_path):
@@ -211,15 +211,15 @@ def account():
 
             current_user.image_file = picture_fn
 
-        # 提交更改
+        # important
         db.session.commit()
         flash('Your account has been updated!', 'success')
-        return redirect(url_for('account'))  # 防止表单重复提交
+        return redirect(url_for('account'))  
 
     elif request.method == 'GET':
-        # 预填充用户名
+        
         form.username.data = current_user.username
 
-    # 渲染模板
+   
     image_file = url_for('static', filename='profile_pics/' + current_user.image_file)
     return render_template('account.html', title='Account', image_file=image_file, form=form)
