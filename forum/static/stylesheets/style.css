@@ -1,0 +1,96 @@
+body {
+    background-color: #f8f9fa; /* 浅灰色背景 */
+    font-family: Arial, sans-serif;
+}
+
+.nav-tabs .nav-link {
+    font-weight: bold;
+    color: #000000; /* 黑色文字 */
+    transition: background-color 0.2s, color 0.2s;
+}
+
+.nav-tabs .nav-link.active {
+    background-color: #007bff; /* 蓝色背景 */
+    color: white;
+}
+
+.nav-tabs .nav-link:hover {
+    color: #0056b3; /* 深蓝色文字 */
+}
+
+.alert {
+    margin-top: 15px;
+}
+
+#content {
+    margin-top: 20px;
+}
+
+#footer {
+    margin-top: 50px;
+    text-align: center;
+    color: #6c757d;
+}
+
+/* 设置页面整体背景颜色 */
+body {
+    background-color: #f8f9fa; /* 浅灰色背景，用于两侧 */
+    margin: 0;
+    padding: 0;
+}
+
+/* 定义中间内容的容器样式 */
+.container {
+    background-color: #ffffff; /* 中间部分为白色背景 */
+    border-radius: 8px; /* 圆角 */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 添加阴影效果 */
+    padding: 20px;
+    max-width: 1200px; /* 最大宽度 */
+    margin: 20px auto; /* 上下左右居中 */
+}
+
+/* 可选：设置两侧背景颜色 */
+body::before,
+body::after {
+    content: '';
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    width: 100px; /* 两侧宽度 */
+    background-color: #007bff; /* 蓝色背景 */
+    z-index: -1; /* 确保在容器下面 */
+}
+
+body::before {
+    left: 0; /* 左侧 */
+}
+
+body::after {
+    right: 0; /* 右侧 */
+}
+
+/* 设置 body 和 html 的高度为 100% */
+html, body {
+    height: 100%;
+    margin: 0;
+}
+
+/* 让 container 填充剩余空间 */
+.container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* 页面高度最少填满整个视口 */
+}
+
+/* 内容区域填充剩余空间 */
+#content {
+    flex: 1; /* 内容区域自动占据剩余空间 */
+}
+
+/* 页脚 */
+#footer {
+    background-color: #343a40; /* 深灰色背景 */
+    color: #ffffff;
+    text-align: center;
+    padding: 10px 0;
+}
